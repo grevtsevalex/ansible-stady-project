@@ -1,0 +1,20 @@
+ - hosts: webservers
+
+   tasks:
+     - name: remove nginx
+       ansible.builtin.apt:
+         name: nginx
+         state: absent
+       become: yes
+
+     - name: remove html
+       ansible.builtin.file:
+         path: /usr/share/nginx/html/index.html
+         state: absent
+       become: yes
+
+     - name: remove nginx config
+       ansible.builtin.file:
+         path: /ect/nginx/nginx.conf
+         state: absent
+       become: yes
