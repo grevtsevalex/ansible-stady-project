@@ -1,0 +1,15 @@
+ - hosts: webservers
+   tasks:
+     - name: install redis-server
+       ansible.builtin.apt: 
+         name: redis-server
+         state: present
+         update-cache: yes
+       become: yes
+
+     - name: install git
+       ansible.builtin.apt:
+         name: git
+         state: present
+         update-cache: yes
+       become: yes
