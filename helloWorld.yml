@@ -17,8 +17,8 @@
        become: yes
 
      - name: copy html file
-       ansible.builtin.copy:
-         src: files/helloWorld/index.html
+       ansible.builtin.template:
+         src: files/helloWorld/index.html.j2
          dest: "{{ root_dir }}/index.html"
        become: yes
 
