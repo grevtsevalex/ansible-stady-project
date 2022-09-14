@@ -1,4 +1,5 @@
  - hosts: webservers
+   gather_facts: no
    vars:
      root_dir: /var/tmp/www
      nginx_port: 8080     
