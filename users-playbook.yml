@@ -1,0 +1,62 @@
+- hosts: webservers
+  gather_facts: no
+  vars:
+    - users:
+        - jaime
+        - sansa
+        - robert
+  tasks:
+    - name: install git
+      ansible.builtin.apt:
+        name: git
+        state: present
+      become: yes
+      tags: git
+
+    - name: create group developers
+      ansible.builtin.group:
+        name: developers
+        state: present
+      become: yes
+
+    - name: create users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        groups: developers
+        append: yes
+      loop: "{{ users }}"
+      become: yes
+
+    - name: create git config files
+      ansible.builtin.template:
+        src: "files/users/.gitconfig.j2"
+        dest: "/home/{{ item }}/.gitconfig"
+      loop: "{{ users }}"
+      become: yes 
+    
+    - name: create ssh dir
+      ansible.builtin.file:
+        path: "/home/{{ item }}/.ssh"
+        state: directory
+        owner: "{{ item }}"
+        mode: 0700
+      loop: "{{ users }}"
+      become: yes
+
+    - name: delete ssh dir
+      ansible.builtin.file:
+        path: "/home/{{ item }}/.ssh"
+        state: absent
+      loop: "{{ users }}"
+      become: yes
+      tags: delete_ssh_dir
+
+    - name: copy ssh key
+      ansible.builtin.copy:
+        src: "files/id_rsa.pub"
+        dest: "/home/{{ item }}/.ssh/authorized_keys"
+        owner: "{{ item }}"
+        mode: 0600
+      loop: "{{ users }}"
+      become: yes
