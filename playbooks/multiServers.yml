@@ -5,16 +5,16 @@
    tasks: 
      - name: install git on ubuntu
        ansible.builtin.apt:
-       when: ansible_os_family == "Ubuntu"
          name: git
          state: present
+       when: ansible_os_family == "Debian"
        become: yes
 
      - name: install git on centos
        ansible.builtin.yum:
-       when: ansible_os_family == "RedHat"
          name: git
          state: present
+       when: ansible_os_family == "RedHat"
        become: yes
 
 
