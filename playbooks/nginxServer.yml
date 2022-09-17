@@ -1,0 +1,15 @@
+ - hosts: webservers
+   vars:
+     text: "This is server: {{ server_name }}"
+   tasks:
+     - name: install nginx
+       ansible.builtin.apt:
+         name: nginx
+         state: latest
+       become: yes
+
+     - name: copy html file
+       ansible.builtin.template:
+         src: files/nginxServer/index.html.j2
+         dest: "/var/www/html/index.html"
+       become: yes
