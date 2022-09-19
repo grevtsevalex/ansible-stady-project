@@ -2,6 +2,17 @@
    vars:
      text: "This is server: {{ server_name }}"
    tasks:
+     - name: install cowsay
+       ansible.builtin.apt:
+         name: cowsay
+         state: latest
+       become: true
+
+     - name: generate message from cow
+       ansible.builtin.shell: cowsay "Hello, from web server!"
+       register: cowsay_result
+       become: true
+
      - name: install nginx
        ansible.builtin.apt:
          name: nginx
