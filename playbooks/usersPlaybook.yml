@@ -44,14 +44,6 @@
       loop: "{{ users }}"
       become: yes
 
-    - name: delete ssh dir
-      ansible.builtin.file:
-        path: "/home/{{ item }}/.ssh"
-        state: absent
-      loop: "{{ users }}"
-      become: yes
-      tags: delete_ssh_dir
-
     - name: copy ssh key
       ansible.builtin.copy:
         src: "files/id_rsa.pub"

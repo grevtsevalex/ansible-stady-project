@@ -1,0 +1,9 @@
+ - hosts: webservers
+
+   tasks:
+
+     - name: Include users Playbook
+       ansible.builtin.import_playbook: usersPlaybook.yml
+
+     - name: Include nginx Server Playbook
+       ansible.builtin.import_playbook: nginxServer.yml
